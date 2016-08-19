@@ -1,0 +1,61 @@
+1.Recurrsion Enumeration 遞迴枚舉
+
+第一次使用這個技巧完成的題目是題單一的 The house of the Santa.
+利用遞迴的方式進行爆搜 若接下來的可能都是不可行的 則返回上一層遞迴 測試下一種可能性
+
+約略格式(in pseudocode):
+
+for(every possibilities)
+{	
+	try one possibility;
+	mark that you've try this one;
+
+	recurrsion();
+
+	dismark this possibility;
+	return;
+}
+
+2.Dynamic Programming (DP)
+
+說是一種algorithm 但其實只是一種中心思想 即:算過的東西不要再算
+
+第一次有明顯感受的題目是 題單四-A的 Jackpot . 多利用一個陣列存取讀取至目前資料為止最大的收益
+利用特性 : 若要重新計算收入 前面所有都需要放棄 等於從當個收益重新開始計算
+
+3.Topological Sort(拓樸排列)
+
+Sample code:
+
+void topo ()
+{
+	for(int i=1;i<=n;i++)
+		ref[i] = 0;
+	
+	for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+			if(adj[i][j])
+				ref[j]++;		//用ref記錄j被幾個點連到
+	
+	for(int i=1;i<=n;i++)
+	{
+		int s=1;
+		while(s<=n && ref[s]!=0)		//找到第一個沒被連到的點
+			s++;
+		
+		if(s == n+1)
+			break;
+		
+		ref[s] = -1;				//將這個點從圖中抽離
+		
+		if(i<n)
+			cout << s << " ";
+		else
+			cout << s << endl;
+			
+		for(int t=1;t<=n;t++)
+			if(adj[s][t])
+				ref[t]--;		//將連到這個點的邊砍掉
+	}
+	return;
+}
